@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Guess the number{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1>Guess the number</h1>
+            {% if game.is_finished %}
+                {{ message }}
+            {% else %}
+                {% if game.author.id == request.session.player_id %}
+                    Number {{ game.number }} is generated.
+                {% else %}
+                    <form method='POST' action=".">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <p>{{ message }}</p>
+                        <input type="submit" value="Check">
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
